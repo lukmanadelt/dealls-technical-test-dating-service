@@ -1,0 +1,65 @@
+run:
+  concurrency: 4
+  issues-exit-code: 1
+  tests: true
+  build-tags:
+    - "codeanalysis"
+
+output:
+  formats:
+    - format: line-number
+  print-issued-lines: true
+  print-linter-name: true
+
+linters:
+  enable-all: true
+  disable:
+    - gofumpt
+    - gci
+    - wsl
+    - gochecknoglobals
+    - wrapcheck
+    - paralleltest
+    - err113
+    - depguard
+    - tagliatelle
+    - mnd
+    - gosec
+    - ireturn
+    - exhaustruct
+    - cyclop
+    - intrange
+    - forbidigo
+    - funlen
+    - errcheck
+    - testpackage
+    - scopelint # deprecated
+    - golint # deprecated
+    - maligned # deprecated
+    - deadcode # deprecated
+    - ifshort # deprecated
+    - structcheck # deprecated
+    - varcheck # deprecated
+    - execinquery # deprecated
+    - gomnd # deprecated
+  fast: false
+
+linters-settings:
+  nilnil:
+    checked-types:
+      - ptr
+      - func
+      - iface
+      - map
+      - chan
+  lll:
+    line-length: 240
+    tab-width: 1
+
+issues:
+  exclude-use-default: false
+  exclude:
+    - ^G104
+    - ^G501
+    - ^ST1005
+  max-same-issues: 50

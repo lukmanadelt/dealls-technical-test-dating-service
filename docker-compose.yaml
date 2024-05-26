@@ -1,0 +1,52 @@
+services:
+  app:
+    container_name: dealls-technical-test-dating-service
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL}
+      - BASE_PATH=${BASE_PATH}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB_NAME=${POSTGRES_DB_NAME}
+      - POSTGRES_SSL_MODE=${POSTGRES_SSL_MODE}
+      - JWT_KEY=${JWT_KEY}
+      - JWT_EXPIRATION=${JWT_EXPIRATION}
+    tty: true
+    build: .
+    ports:
+      - "8080:8080"
+    restart: on-failure
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    networks:
+      - resource-network
+
+  postgres:
+    image: postgres:9.6-alpine
+    container_name: dating-postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    networks:
+      - resource-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin - dating"]
+      interval: 1s
+      timeout: 50s
+      retries: 50
+    command: ["postgres", "-c", "log_statement=all"]
+
+volumes:
+  pg_data:
+
+networks:
+  resource-network:
+    driver: bridge

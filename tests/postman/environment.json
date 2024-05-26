@@ -1,0 +1,12 @@
+{
+  "name": "Dealls Technical Test",
+  "v": 1,
+  "id": "p95qcwylrb",
+  "variables": [
+    {
+      "key": "host",
+      "value": "http://localhost:8080",
+      "secret": false
+    }
+  ]
+}
